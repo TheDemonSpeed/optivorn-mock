@@ -73,6 +73,7 @@ function Select({ value, onChange }: { value: string; onChange: (v: string) => v
         Types of appliances
       </motion.label>
       <button
+        type="button"
         onClick={() => setOpen((o) => !o)}
         className="w-full bg-transparent border-b border-[#dedede] hover:border-[#328000] outline-none px-[16px] pt-[24px] pb-[12px] text-[16px] text-black flex justify-between items-center transition-colors"
       >
@@ -90,6 +91,7 @@ function Select({ value, onChange }: { value: string; onChange: (v: string) => v
           {applianceTypes.map((t) => (
             <button
               key={t}
+              type="button"
               onClick={() => {
                 onChange(t);
                 setOpen(false);
@@ -148,9 +150,26 @@ export function EnquirePage() {
               </motion.div>
             ) : (
               <form
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  setSubmitted(true);
+                  try {
+                    const response = await fetch('/api/enquire', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(form),
+                    });
+                    
+                    if (!response.ok) {
+                      throw new Error('Failed to submit form');
+                    }
+                    
+                    setSubmitted(true);
+                  } catch (error) {
+                    console.error("Error submitting form:", error);
+                    alert("There was an error submitting your request. Please try again.");
+                  }
                 }}
                 className="flex flex-col gap-[28px]"
               >

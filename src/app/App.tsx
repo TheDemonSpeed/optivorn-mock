@@ -20,6 +20,7 @@ import {
   AnimatePresence,
 } from "motion/react";
 import { RouterProvider, useRouter } from "./router";
+import { BackendStatus } from "./components/BackendStatus";
 
 function HomePage() {
   return (
@@ -76,6 +77,7 @@ export default function App() {
         />
         <Navbar />
         <Pages />
+        <BackendStatus />
       </div>
     </RouterProvider>
   );
