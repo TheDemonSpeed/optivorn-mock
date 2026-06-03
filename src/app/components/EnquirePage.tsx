@@ -153,7 +153,8 @@ export function EnquirePage() {
                 onSubmit={async (e) => {
                   e.preventDefault();
                   try {
-                    const response = await fetch('/api/enquire', {
+                    const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+                    const response = await fetch(`${API_BASE_URL}/api/enquire`, {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json',

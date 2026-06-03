@@ -6,14 +6,16 @@ export function BackendStatus() {
   const [dbError, setDbError] = useState<string | null>(null);
 
   useEffect(() => {
+    const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+
     // Check backend health
-    fetch('/api/health')
+    fetch(`${API_BASE_URL}/api/health`)
       .then((res) => res.json())
       .then((data) => setHealthStatus(data.status === 'ok' ? 'Connected \u2705' : 'Error \u274c'))
       .catch((err) => setHealthStatus('Disconnected \u274c'));
 
     // Check Supabase DB connection
-    fetch('/api/test-db')
+    fetch(`${API_BASE_URL}/api/test-db`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch DB data');
         return res.json();
